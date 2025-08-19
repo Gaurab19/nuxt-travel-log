@@ -1,4 +1,5 @@
 # Nuxt dev/build outputs
+// eslint-disable-next-line unused-imports/no-unused-vars
 .output
 .data
 .nuxt
@@ -20,11 +21,13 @@ logs
 
 # Local env files
 .env
-.env.*
+lib/env.ts
 !.env.example
+local.db*
 
-
-package-lock.json
-pnpm-lock.json
 yarn.lock
+pnpm-lock.yaml*
+package-lock.json
+pnpm-lock.yaml
+
 

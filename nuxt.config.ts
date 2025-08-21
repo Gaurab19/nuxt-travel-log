@@ -3,7 +3,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 import { getEnv } from "./lib/env";
 
-const env = getEnv();
+const _env = getEnv();
 
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",

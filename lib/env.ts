@@ -1,4 +1,4 @@
-/* eslint-disable */
+
 import { z } from 'zod'
 import tryParseEnv from './try-parse-env';
 
@@ -7,6 +7,8 @@ const EnvSchema = z
     NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
     TURSO_DATABASE_URL: z.string().min(1, 'TURSO_DATABASE_URL is required'),
     TURSO_AUTH_TOKEN: z.string().optional(),
+    BETTER_AUTH_SECRET:z.string(),
+    BETTER_AUTH_URL:z.string(),
   })
   .refine((v) => v.NODE_ENV === 'development' || !!v.TURSO_AUTH_TOKEN, {
     path: ['TURSO_AUTH_TOKEN'],
@@ -19,6 +21,8 @@ const raw = {
   NODE_ENV: process.env.NODE_ENV,
   TURSO_DATABASE_URL: process.env.TURSO_DATABASE_URL,
   TURSO_AUTH_TOKEN: process.env.TURSO_AUTH_TOKEN,
+  BETTER_AUTH_SECRET:process.env.BETTER_AUTH_SECRET,
+  BETTER_AUTH_URL:process.env.BETTER_AUTH_URL
 }
 
 const parsed = tryParseEnv(EnvSchema, raw)

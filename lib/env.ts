@@ -9,6 +9,8 @@ const EnvSchema = z
     TURSO_AUTH_TOKEN: z.string().optional(),
     BETTER_AUTH_SECRET:z.string(),
     BETTER_AUTH_URL:z.string(),
+    AUTH_GITHUB_CLIENT_ID:z.string(),
+    AUTH_GITHUB_CLIENT_SECRET:z.string()
   })
   .refine((v) => v.NODE_ENV === 'development' || !!v.TURSO_AUTH_TOKEN, {
     path: ['TURSO_AUTH_TOKEN'],
@@ -22,7 +24,9 @@ const raw = {
   TURSO_DATABASE_URL: process.env.TURSO_DATABASE_URL,
   TURSO_AUTH_TOKEN: process.env.TURSO_AUTH_TOKEN,
   BETTER_AUTH_SECRET:process.env.BETTER_AUTH_SECRET,
-  BETTER_AUTH_URL:process.env.BETTER_AUTH_URL
+  BETTER_AUTH_URL:process.env.BETTER_AUTH_URL,
+  AUTH_GITHUB_CLIENT_ID:process.env.AUTH_GITHUB_CLIENT_ID,
+  AUTH_GITHUB_CLIENT_SECRET:process.env.AUTH_GITHUB_CLIENT_SECRET
 }
 
 const parsed = tryParseEnv(EnvSchema, raw)

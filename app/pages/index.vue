@@ -1,3 +1,7 @@
+<script setup lang="ts">
+
+</script>
+
 <template>
   <div class="container mx-auto hero bg-base-300 mt-4">
     <div class="hero-content text-center min-h-96">
@@ -9,10 +13,9 @@
           Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
           quasi. In deleniti eaque aut repudiandae et a id nisi.
         </p>
-        <button class="btn btn-accent">
-          Sign In With Github
-          <icon name="tabler:brand-github" size="24" />
-        </button>
+        <div class="grid gap-3">
+          <auth-button :show-text="true" />
+        </div>
       </div>
     </div>
   </div>

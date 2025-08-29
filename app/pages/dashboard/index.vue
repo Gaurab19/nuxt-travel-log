@@ -1,3 +1,8 @@
+<script setup lang="ts">
+</script>
+
 <template>
-  <h1>You are authenticated to dashboard</h1>
+  <div>
+    <h1>You are authenticated to dashboard</h1>
+  </div>
 </template>

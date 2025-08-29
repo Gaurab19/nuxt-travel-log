@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { useAuthStore } from "../../stores/auth";
 
+const authStore = useAuthStore();
 </script>
 
 <template>
@@ -14,7 +16,14 @@
           quasi. In deleniti eaque aut repudiandae et a id nisi.
         </p>
         <div class="grid gap-3">
-          <auth-button :show-text="true" />
+          <auth-button v-if="!authStore?.user" :show-text="true" />
+          <NuxtLink
+            v-else
+            to="/dashboard"
+            class="btn btn-primary"
+          >
+            Continue to Dashboard
+          </NuxtLink>
         </div>
       </div>
     </div>

@@ -34,11 +34,5 @@ jobs:
 
       - name: Clean & Install Dependencies
         run: |
-          rm -rf node_modules .nuxt
-          pnpm install
-
-      - name: Build Nuxt App
-        run: pnpm build
-
-      - name: Lint
-        run: pnpm lint
+        pnpm install
+        pnpm lint

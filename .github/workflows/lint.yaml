@@ -19,6 +19,7 @@ jobs:
       AUTH_GITHUB_CLIENT_ID: ${{ secrets.AUTH_GITHUB_CLIENT_ID }}
       GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
       GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+
     steps:
       - uses: actions/checkout@v4
 
@@ -33,6 +34,8 @@ jobs:
           node-version: 22.x
 
       - name: Clean & Install Dependencies
+        run: pnpm install
+
+      - name: Lint
         run: |
-        pnpm install
-        pnpm lint
+          NODE_NO_WARNINGS=1 pnpm lint

@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { customAlphabet } from "nanoid";
 import slugify from "slug";
 
@@ -27,6 +27,19 @@ export default defineEventHandler(async (event) => {
       statusCode: 422,
       statusMessage,
       data,
+    }));
+  }
+  const existingLocation = await db.query.location.findFirst({
+    where: and(
+      eq(location.name, result.data.name),
+      eq(location.userId, event.context.user?.id),
+    ),
+  });
+
+  if (existingLocation) {
+    return sendError(event, createError({
+      statusCode: 409,
+      statusMessage: "A location with that name already exists!",
     }));
   }
   let slug = slugify(result.data.name);

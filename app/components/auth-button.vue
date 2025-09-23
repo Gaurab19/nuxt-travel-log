@@ -44,9 +44,13 @@ async function signIn(providerName: string) {
       role="button"
       class="btn m-1"
     >
-      <div v-if="authStore.user.image" class="avatar">
-        <div class="w-8 rounded-full">
-          <img :src="authStore.user.image" :alt="authStore.user.name">
+      <div v-if="authStore?.user?.image" class="avatar">
+        <div class="w-8 h-8 rounded-full overflow-hidden">
+          <img
+            :src="authStore.user.image"
+            :alt="authStore?.user?.name"
+            class="w-full h-full object-cover"
+          >
         </div>
       </div>
       {{ authStore.user.name }}

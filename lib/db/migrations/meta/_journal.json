@@ -15,6 +15,13 @@
       "when": 1755749202892,
       "tag": "0001_grey_umar",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1758614770779,
+      "tag": "0002_tranquil_jean_grey",
+      "breakpoints": true
     }
   ]
 }

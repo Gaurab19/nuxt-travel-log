@@ -1,3 +1,5 @@
+import type z from "zod";
+
 import { int, real, sqliteTable, text, unique } from "drizzle-orm/sqlite-core";
 import { createInsertSchema } from "drizzle-zod";
 
@@ -22,3 +24,5 @@ export const LocationInsertSchema = createInsertSchema(location, {
   lat: field => field.min(-90).max(90),
   long: field => field.min(-180).max(180),
 }).omit ({ id: true, slug: true, createdAt: true, userId: true, updatedAt: true });
+
+export type InsertLocation = z.infer<typeof LocationInsertSchema>;

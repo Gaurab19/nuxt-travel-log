@@ -4,6 +4,9 @@ import type { FetchError } from "ofetch";
 import { toTypedSchema } from "@vee-validate/zod";
 
 import { LocationInsertSchema } from "../../../lib/db/schema/location";
+import { useAuthStore } from "../../../stores/auth";
+
+const auth = useAuthStore();
 
 const router = useRouter();
 
@@ -30,7 +33,7 @@ const onSubmit = handleSubmit(async (values) => {
     if (e.data?.data) {
       setErrors(e.data?.data);
     }
-    submitError.value = e.statusMessage || "An error occurred";
+    submitError.value = e.data?.statusMessage || e.statusMessage || "An error occurred";
   }
   finally {
     loading.value = false;
@@ -49,7 +52,10 @@ onBeforeRouteLeave(() => {
 </script>
 
 <template>
-  <div class="container max-w-md mx-auto">
+  <div v-if="!auth.user" class="flex justify-center items-center h-full">
+    <span class="loading loading-infinity loading-xl text-primary" />
+  </div>
+  <div v-else class="container max-w-md mx-auto">
     <div class="my-4">
       <h1 class="text-lg">
         Add Location

@@ -1,9 +1,16 @@
-import type { EventHandlerRequest } from "h3";
+import type { UserWithId } from "~~/lib/auth";
+import type { H3Event, H3EventContext } from "h3";
 
 import { createError, defineEventHandler } from "h3";
 
+type AuthenticatedEvent = H3Event & {
+  context: H3EventContext & {
+    user: UserWithId;
+  };
+};
+
 export function defineAuthenticatedEventHandler<T>(
-  handler: (event: EventHandlerRequest) => T,
+  handler: (event: AuthenticatedEvent) => T,
 ) {
   return defineEventHandler(async (event) => {
     if (!event.context.user) {
@@ -13,6 +20,6 @@ export function defineAuthenticatedEventHandler<T>(
       });
     }
 
-    return handler(event);
+    return handler(event as AuthenticatedEvent);
   });
 }

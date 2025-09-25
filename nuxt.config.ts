@@ -1,9 +1,16 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 import tailwindcss from "@tailwindcss/vite";
+import { execSync } from "node:child_process";
 
 import { getEnv } from "./lib/env";
 
 const _env = getEnv();
+let gitVersion = "0.0";
+try {
+  gitVersion = execSync("git rev-parse --short HEAD").toString().trim();
+}
+catch (error) {
+  console.warn("Could not retrieve Git version:", error);
+}
 
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
@@ -28,5 +35,10 @@ export default defineNuxtConfig({
   },
   colorMode: {
     dataValue: "theme",
+  },
+  runtimeConfig: {
+    public: {
+      appVersion: gitVersion,
+    },
   },
 });

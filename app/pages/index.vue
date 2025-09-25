@@ -2,6 +2,8 @@
 import { useAuthStore } from "../../stores/auth";
 
 const authStore = useAuthStore();
+const config = useRuntimeConfig();
+console.warn("App version:", config.public.appVersion);
 </script>
 
 <template>

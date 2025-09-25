@@ -1,33 +1,78 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import { useAuthStore } from "../../../stores/auth";
 
 const auth = useAuthStore();
-const loading = ref(false);
-async function getLocationData() {
-  loading.value = true;
-  const res = await $fetch("/api/location", {
-    method: "GET",
-  });
-  console.warn("res", res);
-  loading.value = false;
-}
-getLocationData();
+
+const { data, status } = useFetch("/api/location", {
+  lazy: true,
+});
 </script>
 
 <template>
-  <div v-if="!auth.user && loading" class="flex justify-center items-center h-full">
+  <!-- Loading Spinner -->
+  <div v-if="!auth.user && status === 'pending'" class="flex justify-center items-center h-full">
     <span class="loading loading-infinity loading-xl text-primary" />
   </div>
-  <div v-else class="page-content-top">
-    <h2 class="text-2xl">
-      Locations
-    </h2>
-    <div class="flex flex-col gap-2 mt-4">
-      <p>Add a location to get started</p>
-      <NuxtLink to="/dashboard/add" class="btn btn-primary w-40">
-        Add Location
-        <Icon name="tabler:circle-plus-filled" size="24" />
-      </NuxtLink>
+
+  <!-- Locations List -->
+  <div v-else-if="data?.data?.length" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
+    <div
+      v-for="location in data.data"
+      :key="location.id"
+      class="card w-96 bg-base-100 shadow-sm border border-base-300"
+    >
+      <div class="card-body">
+        <!-- Top Badge -->
+        <span class="badge badge-sm badge-primary normal-case whitespace-normal break-words max-w-full">
+          {{ location.slug }}
+        </span>
+
+        <!-- Title & Lat/Long -->
+        <div class="flex justify-between items-center">
+          <h2 class="text-2xl font-bold text-primary">
+            {{ location.name }}
+          </h2>
+          <div class="text-sm text-right text-gray-500">
+            <p>{{ location.lat.toFixed(2) }},</p>
+            <p>{{ location.long.toFixed(2) }}</p>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <p class="mt-4 text-sm text-gray-600">
+          {{ location.description }}
+        </p>
+
+        <!-- Feature-like list -->
+        <ul class="mt-4 flex flex-col gap-2 text-sm">
+          <li class="flex items-center">
+            <Icon name="tabler:clock" class="text-success size-4 me-2" />
+            <span>Created: {{ new Date(location.createdAt).toLocaleString() }}</span>
+          </li>
+        </ul>
+
+        <!-- View button -->
+        <div class="mt-6">
+          <NuxtLink
+            :to="`/dashboard/location/${location.slug}`"
+            class="btn btn-primary btn-block"
+          >
+            <Icon name="tabler:eye" class="size-4 me-2" />
+            View Details
+          </NuxtLink>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <!-- Empty State -->
+  <div v-else class="flex flex-col items-center justify-center gap-4 mt-10 text-center">
+    <p class="text-lg text-gray-600">
+      No locations found. Add a location to get started.
+    </p>
+    <NuxtLink to="/dashboard/add" class="btn btn-primary gap-2">
+      <Icon name="tabler:circle-plus-filled" size="24" />
+      Add Location
+    </NuxtLink>
   </div>
 </template>

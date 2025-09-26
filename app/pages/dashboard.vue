@@ -1,4 +1,13 @@
 <script setup lang="ts">
+import { useLocationStore } from "~~/stores/locations";
+import { useSideBarStore } from "~~/stores/sidebar";
+
+const useSidebarStore = useSideBarStore();
+const locationStore = useLocationStore();
+
+const route = useRoute();
+const config = useRuntimeConfig();
+console.warn("current build version: ", config.public.appVersion);
 const isSideBarOpen = ref(true);
 function toggleSidebar() {
   isSideBarOpen.value = !isSideBarOpen.value;
@@ -7,6 +16,9 @@ function toggleSidebar() {
 onMounted(() => {
   const storedValue = localStorage.getItem("isSideBarOpen");
   isSideBarOpen.value = JSON.parse(storedValue);
+  if (route.path !== "/dashboard") {
+    locationStore.refresh();
+  }
 });
 </script>
 
@@ -33,6 +45,20 @@ onMounted(() => {
           icon="tabler:circle-plus-filled"
           :is-side-bar-open="isSideBarOpen"
         />
+        <div v-if="useSidebarStore.loading || useSidebarStore.sideBarItems.length" class="divider" />
+        <div v-if="useSidebarStore.loading" class="px=4">
+          <div class="skeleton h-4 w-full" />
+        </div>
+        <div v-if="!useSidebarStore.loading && useSidebarStore.sideBarItems.length" class="flex flex-col">
+          <SidebarButton
+            v-for="item in useSidebarStore.sideBarItems"
+            :key="item.id"
+            :title="item.label"
+            :redirect-link="item.href"
+            :icon="item.icon"
+            :is-side-bar-open="isSideBarOpen"
+          />
+        </div>
         <div class="divider" />
         <SidebarButton
           title="Sign Out"

@@ -1,23 +1,23 @@
 <script setup lang="ts">
-import { useAuthStore } from "../../../stores/auth";
+import { useLocationStore } from "../../../stores/locations";
 
-const auth = useAuthStore();
-
-const { data, status } = useFetch("/api/location", {
-  lazy: true,
+const locationStore = useLocationStore();
+const { locations, status } = storeToRefs(locationStore);
+onMounted(() => {
+  locationStore.refresh();
 });
 </script>
 
 <template>
   <!-- Loading Spinner -->
-  <div v-if="!auth.user && status === 'pending'" class="flex justify-center items-center h-full">
+  <div v-if="status === 'pending'" class="flex justify-center items-center h-full">
     <span class="loading loading-infinity loading-xl text-primary" />
   </div>
 
   <!-- Locations List -->
-  <div v-else-if="data?.data?.length" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
+  <div v-else-if="locations?.data?.length" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
     <div
-      v-for="location in data.data"
+      v-for="location in locations.data"
       :key="location.id"
       class="card w-96 bg-base-100 shadow-sm border border-base-300"
     >
@@ -32,9 +32,9 @@ const { data, status } = useFetch("/api/location", {
           <h2 class="text-2xl font-bold text-primary">
             {{ location.name }}
           </h2>
-          <div class="text-sm text-right text-gray-500">
-            <p>{{ location.lat.toFixed(2) }},</p>
-            <p>{{ location.long.toFixed(2) }}</p>
+          <div class="flex items-center gap-2 text-sm text-gray-500">
+            <Icon name="tabler:map-pin" class="text-error size-4" />
+            <span class="text-pretty">{{ location.lat.toFixed(2) }}, {{ location.long.toFixed(2) }}</span>
           </div>
         </div>
 

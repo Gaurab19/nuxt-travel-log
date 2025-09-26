@@ -14,8 +14,7 @@ console.warn("App version:", config.public.appVersion);
           Hello there
         </h1>
         <p class="py-6">
-          Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
-          quasi. In deleniti eaque aut repudiandae et a id nisi.
+          Provide with desire for pleasure and in. Seek to flee as to assume except exercise as if. In the pacification of that or repudiation and from that unless.
         </p>
         <div class="grid gap-3">
           <auth-button v-if="!authStore?.user" :show-text="true" />

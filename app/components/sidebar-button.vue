@@ -22,7 +22,7 @@ const route = useRoute();
   >
     <Icon :name="props.icon" size="24" />
     <Transition name="fade">
-      <span v-if="props.isSideBarOpen">{{ props.title }}</span>
+      <span v-if="props.isSideBarOpen" class="text-wrap">{{ props.title }}</span>
     </Transition>
   </NuxtLink>
 </template>

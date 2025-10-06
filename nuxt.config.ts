@@ -21,6 +21,7 @@ export default defineNuxtConfig({
     "@nuxtjs/color-mode",
     "@pinia/nuxt",
     "@vee-validate/nuxt",
+    "@nuxtjs/leaflet",
   ],
   css: ["~/assets/css/main.css"],
   vite: {

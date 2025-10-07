@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { LMap, LMarker, LTileLayer } from "@vue-leaflet/vue-leaflet";
-import { computed } from "vue";
 
 import { CENTER_NEPAL } from "../../../lib/constants";
 import { useMapStore } from "../../../stores/map";

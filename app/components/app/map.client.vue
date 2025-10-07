@@ -70,39 +70,41 @@ const attribution = computed(() =>
 </script>
 
 <template>
-  <LMap
-    :style="{ height: props.height }"
-    :zoom="props.zoom"
-    :center="props.center"
-    :use-global-leaflet="false"
-  >
-    <LTileLayer
-      :url="tileUrl"
-      :attribution="attribution"
-      layer-type="base"
-      name="Basemap"
-      :min-zoom="props.minZoom"
-      :max-zoom="props.maxZoom"
-    />
+  <ClientOnly>
+    <LMap
+      :style="{ height: props.height }"
+      :zoom="props.zoom"
+      :center="props.center"
+      :use-global-leaflet="false"
+    >
+      <LTileLayer
+        :url="tileUrl"
+        :attribution="attribution"
+        layer-type="base"
+        name="Basemap"
+        :min-zoom="props.minZoom"
+        :max-zoom="props.maxZoom"
+      />
 
-    <!-- Markers from map store -->
-    <div v-if="props.showAllLocation">
-      <LMarker
-        v-for="point in mapStore.mapPoints"
-        :key="point.id"
-        :lat-lng="[point.lat, point.long]"
-        :draggable="false"
-      />
-    </div>
-    <div v-else>
-      <LMarker
-        v-for="point in props.specificPoints"
-        :key="point"
-        :lat-lng="[point.lat, point.long]"
-        :draggable="false"
-      />
-    </div>
-  </LMap>
+      <!-- Markers from map store -->
+      <div v-if="props.showAllLocation">
+        <LMarker
+          v-for="point in mapStore.mapPoints"
+          :key="point.id"
+          :lat-lng="[point.lat, point.long]"
+          :draggable="false"
+        />
+      </div>
+      <div v-else>
+        <LMarker
+          v-for="point in props.specificPoints"
+          :key="point.lat || point.long"
+          :lat-lng="[point.lat, point.long]"
+          :draggable="false"
+        />
+      </div>
+    </LMap>
+  </ClientOnly>
 </template>
 
 <style scoped>

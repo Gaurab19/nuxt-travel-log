@@ -74,11 +74,14 @@ function closeModal() {
           </div>
 
           <!-- App Map -->
-          <AppMap
-            class="h-96 w-full"
-            :specific-points="[{ lat: selectedLocation.lat, long: selectedLocation.long }]"
-            :show-all-location="false"
-          />
+          <ClientOnly>
+            <AppMap
+              class="h-96 w-full"
+              :specific-points="[{ lat: selectedLocation.lat, long: selectedLocation.long }]"
+              :show-all-location="false"
+              :center="[selectedLocation.lat, selectedLocation.long]"
+            />
+          </ClientOnly>
 
           <!-- Meta Info -->
           <div class="mt-4 text-sm text-gray-500">

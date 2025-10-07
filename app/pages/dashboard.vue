@@ -8,14 +8,14 @@ const locationStore = useLocationStore();
 const route = useRoute();
 const config = useRuntimeConfig();
 console.warn("current build version: ", config.public.appVersion);
-const isSideBarOpen = ref(true);
+const isSideBarOpen = useCookie<boolean>("isSideBarOpen", {
+  default: () => true,
+  watch: true,
+});
 function toggleSidebar() {
   isSideBarOpen.value = !isSideBarOpen.value;
-  localStorage.setItem("isSideBarOpen", isSideBarOpen.value.toString());
 }
 onMounted(() => {
-  const storedValue = localStorage.getItem("isSideBarOpen");
-  isSideBarOpen.value = JSON.parse(storedValue);
   if (route.path !== "/dashboard") {
     locationStore.refresh();
   }
@@ -46,7 +46,7 @@ onMounted(() => {
           :is-side-bar-open="isSideBarOpen"
         />
         <div v-if="useSidebarStore.loading || useSidebarStore.sideBarItems.length" class="divider" />
-        <div v-if="useSidebarStore.loading" class="px=4">
+        <div v-if="useSidebarStore.loading" class="px-4">
           <div class="skeleton h-4 w-full" />
         </div>
         <div v-if="!useSidebarStore.loading && useSidebarStore.sideBarItems.length" class="flex flex-col">

@@ -79,7 +79,7 @@ onMounted(() => {
         </header>
       </div>
       <NuxtPage />
-      <AppMap class="h-[400px] mt-6" />
+      <AppMap class="h-[400px] mt-6" :show-all-location="true" />
     </div>
   </div>
 </template>

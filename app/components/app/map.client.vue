@@ -2,9 +2,11 @@
 import { LMap, LTileLayer } from "@vue-leaflet/vue-leaflet";
 
 import { CENTER_NEPAL } from "../../../lib/constants";
+import { useMapStore } from "../../../stores/map";
 import "leaflet/dist/leaflet.css";
 
 const colorMode = useColorMode();
+const mapStore = useMapStore();
 
 const attributionLight = "&copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors";
 const attributionDark = "&copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors &copy; CARTO";
@@ -30,6 +32,12 @@ const attribution = computed(() => colorMode.value === "dark" ? attributionDark 
       name="Basemap"
       :max-zoom="19"
       :min-zoom="1"
+    />
+    <LMarker
+      v-for="point in mapStore.mapPoints"
+      :key="point.id"
+      :lat-lng="[point.lat, point.long]"
+      :draggable="false"
     />
   </LMap>
 </template>

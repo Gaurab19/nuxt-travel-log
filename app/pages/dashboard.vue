@@ -69,8 +69,17 @@ onMounted(() => {
       </div>
     </div>
     <div class="flex-1 flex flex-col">
+      <div v-if="route.path === '/dashboard'" class="flex-1 flex flex-col">
+        <!-- Top Navbar -->
+        <header class="bg-base-100 shadow-sm px-6 py-3 flex items-center justify-between border-b border-base-300">
+          <h1 class="text-xl font-semibold text-primary flex items-center gap-2">
+            <Icon name="tabler:home" class="text-error size-8 me-2" />
+            Dashboard
+          </h1>
+        </header>
+      </div>
       <NuxtPage />
-      <AppMap class="flex-1" />
+      <AppMap class="h-[400px] mt-6" />
     </div>
   </div>
 </template>

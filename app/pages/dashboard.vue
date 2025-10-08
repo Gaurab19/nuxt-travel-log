@@ -45,20 +45,28 @@ onMounted(() => {
           icon="tabler:circle-plus-filled"
           :is-side-bar-open="isSideBarOpen"
         />
-        <div v-if="useSidebarStore.loading || useSidebarStore.sideBarItems.length" class="divider" />
-        <div v-if="useSidebarStore.loading" class="px-4">
-          <div class="skeleton h-4 w-full" />
-        </div>
-        <div v-if="!useSidebarStore.loading && useSidebarStore.sideBarItems.length" class="flex flex-col">
-          <SidebarButton
-            v-for="item in useSidebarStore.sideBarItems"
-            :key="item.id"
-            :title="item.label"
-            :redirect-link="item.href"
-            :icon="item.icon"
-            :is-side-bar-open="isSideBarOpen"
-          />
-        </div>
+        <ClientOnly>
+          <div v-if="useSidebarStore?.loading || useSidebarStore?.sideBarItems?.length" class="divider" />
+          <div v-if="useSidebarStore?.loading" class="px-4">
+            <div class="skeleton h-4 w-full" />
+          </div>
+          <div v-if="!useSidebarStore?.loading && useSidebarStore?.sideBarItems?.length" class="flex flex-col">
+            <SidebarButton
+              v-for="item in useSidebarStore.sideBarItems"
+              :key="item.id"
+              :title="item.label"
+              redirect-link="/dashboard"
+              :icon="item.icon"
+              :is-side-bar-open="isSideBarOpen"
+            />
+          </div>
+          <template #fallback>
+            <div class="divider" />
+            <div class="px-4">
+              <div class="skeleton h-4 w-full" />
+            </div>
+          </template>
+        </ClientOnly>
         <div class="divider" />
         <SidebarButton
           title="Sign Out"

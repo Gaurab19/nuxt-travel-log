@@ -87,7 +87,7 @@ async function signIn(providerName: string) {
       >
         <!-- icon or spinner -->
         <template v-if="activeProvider === provider.name">
-          <span class="loading loading-spinner w-5 h-5" />
+          <span class="loading loading-infinity w-5 h-5" />
         </template>
         <template v-else>
           <icon :name="provider.icon" size="24" />
